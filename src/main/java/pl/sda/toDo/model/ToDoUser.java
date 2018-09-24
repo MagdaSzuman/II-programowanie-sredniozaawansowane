@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class ToDoUser {
     private String name;
-    private Integer age;
+    private String password;
 
 
 }
