@@ -41,4 +41,16 @@ public class ToDoConsoleView {
     public String registerPassword(){
         return logInPassword();
     }
+
+    public String createNewToDoName() {
+        System.out.println("=============================");
+        System.out.println("Podaj nazwe zadania");
+        return scanner.nextLine();
+    }
+
+    public String createNewToDoDescription() {
+        System.out.println("=============================");
+        System.out.println("Podaj opis zadania");
+        return scanner.nextLine();
+    }
 }

@@ -10,6 +10,7 @@ import pl.sda.toDo.repository.memory.InMemoryToDoUserRepository;
 import pl.sda.toDo.service.ToDoService;
 import pl.sda.toDo.views.ToDoConsoleView;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 @AllArgsConstructor
@@ -20,7 +21,9 @@ public class ToDoApplication {
 
     public static void main(String[] args) {
         ToDoRepository toDoRepository = new InMemoryToDoRepository();
-        ToDoUserRepository toDoUserRepository = new InMemoryToDoUserRepository();
+        ToDoUserRepository toDoUserRepository = new InMemoryToDoUserRepository(
+                Arrays.asList(new ToDoUser("MgSz", "mgsz"))
+        );
 
         ToDoService toDoService = new ToDoService(toDoRepository, toDoUserRepository);
 
