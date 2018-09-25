@@ -50,6 +50,7 @@ public class ToDoApplication {
                     addNewToDo();
                     break;
                 case 4:
+                    showToDoList();
                     break;
                 case 0:
                 default:
@@ -59,6 +60,7 @@ public class ToDoApplication {
             }
         } while (flag);
     }
+
 
     private void login() {
         this.currentUser = null;
@@ -92,11 +94,20 @@ public class ToDoApplication {
         if (currentUser == null) {
             login();
         }
-        String toDoName = toDoConsoleView.createNewToDoName();
-        String toDoDescription = toDoConsoleView.createNewToDoDescription();
 
-        ToDo toDo = new ToDo(toDoName, this.currentUser);
-        toDo.setDescription(toDoDescription);
-        toDoService.save(toDo);
+        if (currentUser!=null) {
+            String toDoName = toDoConsoleView.createNewToDoName();
+            String toDoDescription = toDoConsoleView.createNewToDoDescription();
+
+            ToDo toDo = new ToDo(toDoName, this.currentUser);
+            toDo.setDescription(toDoDescription);
+            toDoService.save(toDo);
+        }
+    }
+
+
+    private void showToDoList() {
+        Integer option = toDoConsoleView.showToDoListWithOptions(toDoService.findAllToDos());
+        System.out.println("Wybrano opcję " + option);
     }
 }

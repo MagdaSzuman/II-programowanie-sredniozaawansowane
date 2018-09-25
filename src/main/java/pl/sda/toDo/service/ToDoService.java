@@ -8,6 +8,8 @@ import pl.sda.toDo.model.exception.ToDoUserDoesNotExistsException;
 import pl.sda.toDo.repository.ToDoRepository;
 import pl.sda.toDo.repository.ToDoUserRepository;
 
+import java.util.List;
+
 @AllArgsConstructor
 public class ToDoService {
     private ToDoRepository toDoRepository;
@@ -37,4 +39,7 @@ public class ToDoService {
         return user;
     }
 
+    public List<ToDo> findAllToDos() {
+        return toDoRepository.findAll();
+    }
 }
