@@ -36,6 +36,7 @@ public class ToDoApplication {
     }
 
     public void start() {
+        Boolean flag = true;
         do {
             Integer menuOption = toDoConsoleView.menu();
             switch (menuOption) {
@@ -50,10 +51,13 @@ public class ToDoApplication {
                     break;
                 case 4:
                     break;
+                case 0:
                 default:
+                    toDoConsoleView.exit();
+                    flag = false;
                     break;
             }
-        } while (true);
+        } while (flag);
     }
 
     private void login() {

@@ -69,4 +69,12 @@ public class ToDoConsoleView {
         System.out.println("=========SUCCESS=========");
         System.out.println();
     }
+
+    public void exit() {
+        System.out.println();
+        System.out.println("=============================");
+        System.out.println("Zapraszamy ponownie!");
+        System.out.println("=============================");
+
+    }
 }
