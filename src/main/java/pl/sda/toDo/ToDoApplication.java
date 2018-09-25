@@ -24,7 +24,6 @@ public class ToDoApplication {
     public static void main(String[] args) {
         ToDoRepository toDoRepository = new InMemoryToDoRepository();
         ToDoUserRepository toDoUserRepository = new InMemoryToDoUserRepository(
-                Arrays.asList(new ToDoUser("MgSz", "mgsz"))
         );
 
         ToDoService toDoService = new ToDoService(toDoRepository, toDoUserRepository);
@@ -44,6 +43,7 @@ public class ToDoApplication {
                     login();
                     break;
                 case 2:
+                    register();
                     break;
                 case 3:
                     addNewToDo();
@@ -67,6 +67,21 @@ public class ToDoApplication {
             toDoConsoleView.displayError(e.getMessage());
         }
 
+        if (this.currentUser != null) {
+            toDoConsoleView.displaySuccess("User " + name + " is logged in");
+        }
+    }
+
+    private void register() {
+        String name = toDoConsoleView.registerName();
+        String password = toDoConsoleView.registerPassword();
+        ToDoUser user = toDoService.register(name, password);
+
+        if (user == null) {
+            toDoConsoleView.displayError("User cannot be registered. \n" + " User with that name " + name + " already exists");
+        } else {
+            toDoConsoleView.displaySuccess("User " + name + " is registered successfully");
+        }
     }
 
     private void addNewToDo() {

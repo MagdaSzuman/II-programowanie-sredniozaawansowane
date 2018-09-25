@@ -55,8 +55,18 @@ public class ToDoConsoleView {
     }
 
     public void displayError(String message){
+        System.out.println();
         System.out.println("==========ERROR=========");
         System.out.println(message);
         System.out.println("==========ERROR=========");
+        System.out.println();
+    }
+
+    public void displaySuccess(String message) {
+        System.out.println();
+        System.out.println("=========SUCCESS=========");
+        System.out.println(message);
+        System.out.println("=========SUCCESS=========");
+        System.out.println();
     }
 }
