@@ -3,6 +3,8 @@ package pl.sda.toDo;
 import lombok.AllArgsConstructor;
 import pl.sda.toDo.model.ToDo;
 import pl.sda.toDo.model.ToDoUser;
+import pl.sda.toDo.model.exception.InvalidPasswordException;
+import pl.sda.toDo.model.exception.ToDoUserDoesNotExistsException;
 import pl.sda.toDo.repository.ToDoRepository;
 import pl.sda.toDo.repository.ToDoUserRepository;
 import pl.sda.toDo.repository.memory.InMemoryToDoRepository;
@@ -39,6 +41,7 @@ public class ToDoApplication {
             Integer menuOption = toDoConsoleView.menu();
             switch (menuOption) {
                 case 1:
+                    login();
                     break;
                 case 2:
                     break;
@@ -53,11 +56,22 @@ public class ToDoApplication {
         } while (true);
     }
 
+    private void login() {
+        this.currentUser = null;
+        String name = toDoConsoleView.logInName();
+        String password = toDoConsoleView.logInPassword();
+
+        try {
+            this.currentUser = toDoService.login(name, password);
+        } catch (ToDoUserDoesNotExistsException | InvalidPasswordException e) {
+            toDoConsoleView.displayError(e.getMessage());
+        }
+
+    }
+
     private void addNewToDo() {
         if (currentUser == null) {
-            String name = toDoConsoleView.logInName();
-            String password = toDoConsoleView.logInPassword();
-            this.currentUser = toDoService.login(name, password);
+            login();
         }
         String toDoName = toDoConsoleView.createNewToDoName();
         String toDoDescription = toDoConsoleView.createNewToDoDescription();
