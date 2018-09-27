@@ -47,4 +47,13 @@ public class ToDoService {
     public Optional<ToDo> findToDoById(Integer toDoId) {
         return toDoRepository.findById(toDoId);
     }
+
+    public Optional<ToDo> removeToDo(Integer toDoId) {
+        Optional<ToDo> toDo = toDoRepository.findById(toDoId);
+        if (toDo.isPresent()) {
+            toDoRepository.remove(toDoId);
+        }
+        return toDo;
+    }
 }
+

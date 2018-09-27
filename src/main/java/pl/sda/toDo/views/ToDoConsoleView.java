@@ -17,7 +17,7 @@ public class ToDoConsoleView {
         this.scanner = scanner;
     }
 
-    public Integer menu(){
+    public Integer menu() {
         System.out.println();
         System.out.println("====== ToDo application =====");
         System.out.println("1. Zaloguj");
@@ -32,24 +32,25 @@ public class ToDoConsoleView {
         return option;
     }
 
-    public String logInName(){
+    public String logInName() {
         System.out.println();
         System.out.println("=============================");
         System.out.println("Podaj nick");
         return scanner.nextLine();
     }
-    public String logInPassword(){
+
+    public String logInPassword() {
         System.out.println();
         System.out.println("=============================");
         System.out.println("Podaj haslo");
         return scanner.nextLine();
     }
 
-    public String registerName(){
+    public String registerName() {
         return logInName();
     }
 
-    public String registerPassword(){
+    public String registerPassword() {
         return logInPassword();
     }
 
@@ -67,7 +68,7 @@ public class ToDoConsoleView {
         return scanner.nextLine();
     }
 
-    public void displayError(String message){
+    public void displayError(String message) {
         System.out.println();
         System.out.println("==========ERROR=========");
         System.out.println(message);
@@ -97,17 +98,17 @@ public class ToDoConsoleView {
         System.out.println("Lista zadań");
         System.out.println("=============================");
 
-        for (int i = 0; i <allToDos.size() ; i++) {
+        for (int i = 0; i < allToDos.size(); i++) {
             ToDo toDo = allToDos.get(i);
             ToDoUser creator = toDo.getCreator();
             Optional<ToDoUser> owner = Optional.ofNullable(toDo.getOwner());
             ToDoStatus toDoStatus = toDo.getToDoStatus();
             System.out.println(
-                    (i+1) +
-                    ". | \"" + toDo.getName() +
-                    "\" | \"" + creator.getName() +
-                    "\" | \"" + owner.orElse(ToDoUser.unasigned()).getName() +
-                    "\" | \"" + toDoStatus.toString().toUpperCase());
+                    (i + 1) +
+                            ". | \"" + toDo.getName() +
+                            "\" | \"" + creator.getName() +
+                            "\" | \"" + owner.orElse(ToDoUser.unasigned()).getName() +
+                            "\" | " + toDoStatus.toString().toUpperCase());
         }
 
         System.out.println();
@@ -120,12 +121,22 @@ public class ToDoConsoleView {
         System.out.println("=============================");
 
         Integer option = scanner.nextInt();
-        scanner.nextLine();
+//        scanner.nextLine();
 
         return option;
     }
 
     public Integer getToDoId() {
+//        String possibleId = scanner.nextLine();
+//        int id;
+//        if (possibleId.length() == 0) {
+//            System.out.println("Podaj nume zadania");
+//            id = scanner.nextInt();
+//            scanner.nextLine();
+//        } else {
+//            id = Integer.valueOf(possibleId.substring(1));//metoda przycinajaca dlugość tekstu
+//        }
+//        return id;
         System.out.println("=============================");
         System.out.println("Podaj numer zadania");
         int toDoId = scanner.nextInt();
@@ -133,16 +144,60 @@ public class ToDoConsoleView {
         return toDoId;
     }
 
+
     public void showToDoWithDetails(Optional<ToDo> toDo) {
-        String message = toDo.map(e ->{
+        String message = toDo.map(e -> {
             ToDoUser creator = e.getCreator();
             Optional<ToDoUser> owner = Optional.ofNullable(e.getOwner());
             return e.getName() +
                     " (" + e.getToDoStatus().toString() + ") (" + e.getCreationDate().toString() + ")\n" +
-                    "Opis: " + e.getDescription()+"\n"+
-                    "Twórca: " + creator.getName() +"\n"+
+                    "Opis: " + e.getDescription() + "\n" +
+                    "Twórca: " + creator.getName() + "\n" +
                     "Przypisane: " + owner.orElse(ToDoUser.unasigned()).getName();
         }).orElse("Wybrane zadanie nie istnieje");
         System.out.println(message);
     }
+
+//    public Integer getToDoIdToDelete() {
+////        String possibleId = scanner.nextLine();
+////        Integer id = possibleId.length() > 0 ?
+////                getIdFromMessage(possibleId) :
+////                askForToDoToDelete();
+////        return id;
+//        System.out.println("=============================");
+//        System.out.println("Podaj numer zadania, które chcesz usunąć");
+//        int id = scanner.nextInt();
+//        scanner.nextLine();
+//        return id;
+//    }
+
+    private Integer getIdFromMessage(String message) {
+        return Integer.valueOf(message.substring(1));
+    }
+//      NIE POTRZEBNE - OBESZLIŚMY SYSTEM
+//    private Integer askForToDoToDelete() {
+//        System.out.println("=============================");
+//        System.out.println("Podaj numer zadania, które chcesz usunuąć");
+//        int toDoId = scanner.nextInt();
+//        scanner.nextLine();
+//        return toDoId;
+//    }
+
+    public String getPossibleId() {
+        String possibleId = scanner.nextLine();
+//        if(possibleId.length()>0){
+//            return possibleId.substring(1);
+//        }else
+//        return possibleId;
+//    }
+        return possibleId.length() > 0 ?
+                possibleId.substring(1) :
+                possibleId;
+    }
+
+    public void displayToDoRemove(Optional<ToDo> removedToDo) {
+        System.out.println(removedToDo.map(e -> "Usunięto zadanie " + e.getName())
+                .orElse("Zadanie nie istnieje"));
+    }
 }
+

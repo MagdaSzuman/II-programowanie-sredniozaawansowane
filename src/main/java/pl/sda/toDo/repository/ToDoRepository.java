@@ -10,5 +10,8 @@ public interface ToDoRepository {
     Optional<ToDo> findById (String id);
     Optional<ToDo> findById (Integer id);
     List<ToDo> findAll();
+
+    void remove(int toDoId);
+
 }
 

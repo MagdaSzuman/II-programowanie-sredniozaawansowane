@@ -45,4 +45,9 @@ public class InMemoryToDoRepository implements ToDoRepository {
     public List<ToDo> findAll() {
         return new ArrayList<>(todos);
     }
+
+    @Override
+    public void remove(int toDoId) {
+        todos.remove(toDoId);
+    }
 }

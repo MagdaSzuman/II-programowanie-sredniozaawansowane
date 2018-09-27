@@ -12,6 +12,7 @@ import pl.sda.toDo.repository.memory.InMemoryToDoUserRepository;
 import pl.sda.toDo.service.ToDoService;
 import pl.sda.toDo.views.ToDoConsoleView;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
@@ -62,7 +63,7 @@ public class ToDoApplication {
         } while (flag);
     }
 
-        private void login() {
+    private void login() {
         this.currentUser = null;
         String name = toDoConsoleView.logInName();
         String password = toDoConsoleView.logInPassword();
@@ -95,7 +96,7 @@ public class ToDoApplication {
             login();
         }
 
-        if (currentUser!=null) {
+        if (currentUser != null) {
             String toDoName = toDoConsoleView.createNewToDoName();
             String toDoDescription = toDoConsoleView.createNewToDoDescription();
 
@@ -108,17 +109,39 @@ public class ToDoApplication {
     private void showToDoList() {
         Integer option = toDoConsoleView.showToDoListWithOptions(toDoService.findAllToDos());
 //        System.out.println("Wybrano opcję " + option);
-
-        switch (option){
+        String possibleId = toDoConsoleView.getPossibleId();
+        switch (option) {
             case 1:
-                showToDo();
+                showToDo(possibleId);
+                break;
+            case 2:
+                deleteToDo(possibleId);
                 break;
         }
 
     }
 
-    private void showToDo() {
-        Integer toDoId = toDoConsoleView.getToDoId()-1;
+    private Integer extractToDoId(String possibleId) {
+        Integer toDoId;
+        if (possibleId.length() == 0) {
+            toDoId = toDoConsoleView.getToDoId() - 1;
+        } else {
+            toDoId = Integer.valueOf(possibleId) - 1;
+        }
+        return toDoId;
+    }
+
+    private void deleteToDo(String possibleId) {
+        // NAPISANE OD NOWA
+//        Integer toDoToDeleteId = toDoConsoleView.getToDoIdToDelete()-1;
+//        toDoService.removeToDo(toDoToDeleteId);
+        Integer toDoId = extractToDoId(possibleId);
+        Optional<ToDo> removedToDo = toDoService.removeToDo(toDoId);
+        toDoConsoleView.displayToDoRemove(removedToDo);
+    }
+
+    private void showToDo(String possibleId) {
+        Integer toDoId = extractToDoId(possibleId);
         Optional<ToDo> toDo = toDoService.findToDoById(toDoId);
         toDoConsoleView.showToDoWithDetails(toDo);
     }
