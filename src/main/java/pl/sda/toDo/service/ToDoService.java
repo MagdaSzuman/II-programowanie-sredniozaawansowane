@@ -9,6 +9,7 @@ import pl.sda.toDo.repository.ToDoRepository;
 import pl.sda.toDo.repository.ToDoUserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class ToDoService {
@@ -41,5 +42,9 @@ public class ToDoService {
 
     public List<ToDo> findAllToDos() {
         return toDoRepository.findAll();
+    }
+
+    public Optional<ToDo> findToDoById(Integer toDoId) {
+        return toDoRepository.findById(toDoId);
     }
 }

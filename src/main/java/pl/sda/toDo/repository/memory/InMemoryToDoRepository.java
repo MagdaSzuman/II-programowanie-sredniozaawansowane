@@ -29,6 +29,19 @@ public class InMemoryToDoRepository implements ToDoRepository {
     }
 
     @Override
+    public Optional<ToDo> findById(Integer id) {
+//        if (id >= 0 && id < todos.size()) {
+//            return Optional.of(todos.get(id));
+//        }
+//        return Optional.empty();
+        // ten sam zapis co na górze, tylko ładniejszy
+        return (id >= 0 && id < todos.size())?
+                Optional.of(todos.get(id)):
+                Optional.empty();
+
+    }
+
+    @Override
     public List<ToDo> findAll() {
         return new ArrayList<>(todos);
     }

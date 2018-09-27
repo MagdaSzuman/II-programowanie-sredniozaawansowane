@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface ToDoRepository {
     void save (ToDo toDo);
     Optional<ToDo> findById (String id);
+    Optional<ToDo> findById (Integer id);
     List<ToDo> findAll();
 }
 

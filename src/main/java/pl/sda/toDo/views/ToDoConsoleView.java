@@ -3,13 +3,15 @@ package pl.sda.toDo.views;
 import pl.sda.toDo.model.ToDo;
 import pl.sda.toDo.model.ToDoStatus;
 import pl.sda.toDo.model.ToDoUser;
+import pl.sda.toDo.repository.memory.InMemoryToDoRepository;
+import pl.sda.toDo.service.ToDoService;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class ToDoConsoleView {
-    private Scanner scanner;
+    private static Scanner scanner;
 
     public ToDoConsoleView(Scanner scanner) {
         this.scanner = scanner;
@@ -121,5 +123,26 @@ public class ToDoConsoleView {
         scanner.nextLine();
 
         return option;
+    }
+
+    public Integer getToDoId() {
+        System.out.println("=============================");
+        System.out.println("Podaj numer zadania");
+        int toDoId = scanner.nextInt();
+        scanner.nextLine();
+        return toDoId;
+    }
+
+    public void showToDoWithDetails(Optional<ToDo> toDo) {
+        String message = toDo.map(e ->{
+            ToDoUser creator = e.getCreator();
+            Optional<ToDoUser> owner = Optional.ofNullable(e.getOwner());
+            return e.getName() +
+                    " (" + e.getToDoStatus().toString() + ") (" + e.getCreationDate().toString() + ")\n" +
+                    "Opis: " + e.getDescription()+"\n"+
+                    "Twórca: " + creator.getName() +"\n"+
+                    "Przypisane: " + owner.orElse(ToDoUser.unasigned()).getName();
+        }).orElse("Wybrane zadanie nie istnieje");
+        System.out.println(message);
     }
 }

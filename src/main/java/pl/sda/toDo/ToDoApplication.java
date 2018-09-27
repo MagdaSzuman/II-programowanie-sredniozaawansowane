@@ -13,6 +13,7 @@ import pl.sda.toDo.service.ToDoService;
 import pl.sda.toDo.views.ToDoConsoleView;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Scanner;
 
 @AllArgsConstructor
@@ -61,8 +62,7 @@ public class ToDoApplication {
         } while (flag);
     }
 
-
-    private void login() {
+        private void login() {
         this.currentUser = null;
         String name = toDoConsoleView.logInName();
         String password = toDoConsoleView.logInPassword();
@@ -105,9 +105,21 @@ public class ToDoApplication {
         }
     }
 
-
     private void showToDoList() {
         Integer option = toDoConsoleView.showToDoListWithOptions(toDoService.findAllToDos());
-        System.out.println("Wybrano opcję " + option);
+//        System.out.println("Wybrano opcję " + option);
+
+        switch (option){
+            case 1:
+                showToDo();
+                break;
+        }
+
+    }
+
+    private void showToDo() {
+        Integer toDoId = toDoConsoleView.getToDoId()-1;
+        Optional<ToDo> toDo = toDoService.findToDoById(toDoId);
+        toDoConsoleView.showToDoWithDetails(toDo);
     }
 }
