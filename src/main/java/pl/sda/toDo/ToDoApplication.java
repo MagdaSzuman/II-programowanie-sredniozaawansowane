@@ -1,7 +1,9 @@
 package pl.sda.toDo;
 
 import lombok.AllArgsConstructor;
+import pl.sda.toDo.model.Command;
 import pl.sda.toDo.model.ToDo;
+import pl.sda.toDo.model.ToDoStatus;
 import pl.sda.toDo.model.ToDoUser;
 import pl.sda.toDo.model.exception.InvalidPasswordException;
 import pl.sda.toDo.model.exception.ToDoUserDoesNotExistsException;
@@ -109,16 +111,71 @@ public class ToDoApplication {
     private void showToDoList() {
         Integer option = toDoConsoleView.showToDoListWithOptions(toDoService.findAllToDos());
 //        System.out.println("Wybrano opcję " + option);
-        String possibleId = toDoConsoleView.getPossibleId();
+        Command command = new Command(option);
+
         switch (option) {
             case 1:
-                showToDo(possibleId);
+                String possibleId = toDoConsoleView.getPossibleId();
+                Integer toDoId = extractToDoId(possibleId);
+                command.addArgument("toDoId", toDoId);
+                showToDo(command);
                 break;
             case 2:
-                deleteToDo(possibleId);
+                String possibleIdToRemove = toDoConsoleView.getPossibleId();
+                Integer toDoIdToRemove = extractToDoId(possibleIdToRemove);
+                command.addArgument("toDoId", toDoIdToRemove);
+                deleteToDo(command);
+                break;
+            case 3:
+                String possibleIdToAssign = toDoConsoleView.getPossibleId();
+                Integer toDoIdToAssign = extractToDoId(possibleIdToAssign);
+                command.addArgument("toDoId", toDoIdToAssign);
+                command.addArgument("user", currentUser);
+                assign(command);
+                break;
+            case 4:
+                String PossibleIdToChangeStatus = toDoConsoleView.getPossibleId();
+                Integer toDoIdToChangeStatus = extractToDoId(PossibleIdToChangeStatus);
+                ToDoStatus status = toDoConsoleView.getStatus();
+                command.addArgument("toDoId", toDoIdToChangeStatus);
+                command.addArgument("status", status);
+                changeStatus(command);
                 break;
         }
+    }
 
+    private void changeStatus(Command command) {
+        Integer toDoId = (Integer) command.getArgument("toDoId");
+        ToDoStatus status = (ToDoStatus) command.getArgument("status");
+        Optional<ToDo> toDo = toDoService.findToDoById(toDoId);
+        if (toDo.isPresent()) {
+            ToDo toDoToChangeStatus = toDo.get();
+            toDoToChangeStatus.setToDoStatus(status);
+        }
+        toDoConsoleView.displayChangeStatus(toDo);
+    }
+
+    // Stara metoda przed command
+//    private void assign(String possibleId, ToDoUser currentUser) {
+//        Integer toDoId = extractToDoId(possibleId);
+//        Optional<ToDo> toDo = toDoService.findToDoById(toDoId);
+//        if (toDo.isPresent()) {
+//            ToDo toDoToChangeAssigment = toDo.get();
+//            toDoToChangeAssigment.setOwner(currentUser);
+//        }
+//        toDoConsoleView.displayAssigment(toDo, currentUser);
+//    }
+
+    private void assign(Command command) {
+        Integer toDoId = (Integer) command.getArgument("toDoId");
+        ToDoUser user = (ToDoUser) command.getArgument("user");
+
+        Optional<ToDo> toDo = toDoService.findToDoById(toDoId);
+        if (toDo.isPresent()) {
+            ToDo toDoToChangeAssigment = toDo.get();
+            toDoToChangeAssigment.setOwner(user);
+        }
+        toDoConsoleView.displayAssigment(toDo, user);
     }
 
     private Integer extractToDoId(String possibleId) {
@@ -131,17 +188,30 @@ public class ToDoApplication {
         return toDoId;
     }
 
-    private void deleteToDo(String possibleId) {
-        // NAPISANE OD NOWA
-//        Integer toDoToDeleteId = toDoConsoleView.getToDoIdToDelete()-1;
-//        toDoService.removeToDo(toDoToDeleteId);
-        Integer toDoId = extractToDoId(possibleId);
+    // stara metoda deletoToDo - w nowej wyciąganie id jest na innym poziomie - command
+//    private void deleteToDo(String possibleId) {
+//        // NAPISANE OD NOWA
+////        Integer toDoToDeleteId = toDoConsoleView.getToDoIdToDelete()-1;
+////        toDoService.removeToDo(toDoToDeleteId);
+//        Integer toDoId = extractToDoId(possibleId);
+//        Optional<ToDo> removedToDo = toDoService.removeToDo(toDoId);
+//        toDoConsoleView.displayToDoRemove(removedToDo);
+//    }
+
+    private void deleteToDo(Command command) {
+        Integer toDoId = (Integer) command.getArgument("toDoId");
         Optional<ToDo> removedToDo = toDoService.removeToDo(toDoId);
         toDoConsoleView.displayToDoRemove(removedToDo);
     }
+    // stara metoda showToDo - w nowej wyciąganie id jest na innym poziomie
+//    private void showToDo(String possibleId) {
+//        Integer toDoId = extractToDoId(possibleId);
+//        Optional<ToDo> toDo = toDoService.findToDoById(toDoId);
+//        toDoConsoleView.showToDoWithDetails(toDo);
+//    }
 
-    private void showToDo(String possibleId) {
-        Integer toDoId = extractToDoId(possibleId);
+    private void showToDo(Command command) {
+        Integer toDoId = (Integer) command.getArgument("toDoId");
         Optional<ToDo> toDo = toDoService.findToDoById(toDoId);
         toDoConsoleView.showToDoWithDetails(toDo);
     }

@@ -199,5 +199,21 @@ public class ToDoConsoleView {
         System.out.println(removedToDo.map(e -> "Usunięto zadanie " + e.getName())
                 .orElse("Zadanie nie istnieje"));
     }
+
+    public void displayAssigment(Optional<ToDo> toDo, ToDoUser currentUser) {
+        System.out.println(toDo.map(e -> "Przypisano " + currentUser.getName() + " do zadania \"" + e.getName() + "\"")
+                .orElse("Zadanie nie istnieje"));
+    }
+
+    public void displayChangeStatus(Optional<ToDo> toDo) {
+        System.out.println(toDo.map(e -> "Zmieniono status zadania " + e.getName() + " na " + e.getToDoStatus())
+                .orElse("Zadanie nie istnieje"));
+    }
+
+    public ToDoStatus getStatus() {
+        System.out.println("Podaj status (NEW, ACTIVE, CLOSED)");
+        String status = scanner.nextLine();
+        return ToDoStatus.valueOf(status);
+    }
 }
 
