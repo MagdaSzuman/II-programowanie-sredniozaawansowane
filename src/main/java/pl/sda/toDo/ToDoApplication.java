@@ -134,18 +134,32 @@ public class ToDoApplication {
                 assign(command);
                 break;
             case 4:
-                String PossibleIdToChangeStatus = toDoConsoleView.getPossibleId();
-                Integer toDoIdToChangeStatus = extractToDoId(PossibleIdToChangeStatus);
-                ToDoStatus status = toDoConsoleView.getStatus();
-                command.addArgument("toDoId", toDoIdToChangeStatus);
-                command.addArgument("status", status);
+                addChangeStatusArguments(command);
                 changeStatus(command);
                 break;
         }
     }
 
+
+    private void addChangeStatusArguments(Command command) {
+        String restOfCommand = toDoConsoleView.getPossibleId();
+        Scanner scanner = new Scanner(restOfCommand);
+        if (scanner.hasNextInt()) {
+            command.addArgument("toDoId", scanner.nextInt());
+        }else {
+            command.addArgument("toDoId", toDoConsoleView.getToDoId());
+        }
+
+        if (scanner.hasNext()) {
+            String status = scanner.next();
+            command.addArgument("status", ToDoStatus.valueOf(status));
+        }else {
+            command.addArgument("status", toDoConsoleView.getStatus());
+        }
+    }
+
     private void changeStatus(Command command) {
-        Integer toDoId = (Integer) command.getArgument("toDoId");
+        Integer toDoId = (Integer) command.getArgument("toDoId")-1;
         ToDoStatus status = (ToDoStatus) command.getArgument("status");
         Optional<ToDo> toDo = toDoService.findToDoById(toDoId);
         if (toDo.isPresent()) {
