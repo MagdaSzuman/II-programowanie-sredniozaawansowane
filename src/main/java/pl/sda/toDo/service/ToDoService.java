@@ -10,11 +10,19 @@ import pl.sda.toDo.repository.ToDoUserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class ToDoService {
     private ToDoRepository toDoRepository;
     private ToDoUserRepository toDoUserRepository;
+
+    public List <ToDo> findTodosByCreatorName (String creatorName){
+        return toDoRepository.findAll()
+                .stream()
+                .filter(toDo -> toDo.getCreator().getName().equalsIgnoreCase(creatorName))
+                .collect(Collectors.toList());
+    }
 
     public void save(ToDo toDo) {
         toDoRepository.save(toDo);
