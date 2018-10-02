@@ -1,4 +1,4 @@
-package pl.sda;
+package pl.sda.warmUps.warmUp2;
 
 import lombok.Builder;
 import lombok.Data;

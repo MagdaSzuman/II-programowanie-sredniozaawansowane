@@ -1,4 +1,4 @@
-package pl.sda;
+package pl.sda.warmUps.warmUp1;
 
 import java.util.Scanner;
 
