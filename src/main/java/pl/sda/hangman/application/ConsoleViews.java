@@ -60,4 +60,31 @@ public class ConsoleViews {
         scanner.nextLine();
     }
 
+    public String addPhraseMessage() {
+        System.out.println("==================");
+        System.out.println("Podaj frazę");
+        System.out.println("==================");
+        return scanner.nextLine();
+    }
+
+    public void displayPhraseContainsForbiddenWords() {
+        System.out.println("==================");
+        System.out.println("Podana fraza zawiera zobronione słowa");
+        System.out.println("==================");
+        waitForAction();
+    }
+
+    public void displayPhraseAlreadyExists() {
+        System.out.println("==================");
+        System.out.println("Podana fraza już istnieje");
+        System.out.println("==================");
+        waitForAction();
+    }
+
+    public void displayPhraseAddedSucessfully(String phrase) {
+        System.out.println("==================");
+        System.out.println("Podana fraza " + phrase + " została dodana pomyślnie");
+        System.out.println("==================");
+        waitForAction();
+    }
 }

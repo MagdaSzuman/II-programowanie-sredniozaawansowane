@@ -20,6 +20,8 @@ public class PhraseServiceTest {
         PhraseService phraseService = new PhraseService(phraseRepository, forbiddenWordsValidator);
         //when
         phraseService.addPhrase("Phrase with forbidden word");
+        //then
+        Mockito.verify(phraseRepository,Mockito.times(1)).save("Phrase with forbidden word");
     }
 
     @Test(expected = PhraseAlreadyExistsException.class)
