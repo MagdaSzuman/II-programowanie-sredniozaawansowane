@@ -7,9 +7,12 @@ import pl.sda.hangman.domain.exceptions.ForbiddenWordsInPhraseException;
 import pl.sda.hangman.domain.exceptions.PhraseAlreadyExistsException;
 import pl.sda.hangman.domain.model.Game;
 import pl.sda.hangman.domain.model.GameStatus;
+import pl.sda.hangman.infrastructure.file.FileBasedForbiddenWordsRepostiory;
 import pl.sda.hangman.infrastructure.memory.InMemoryForbiddenWordsRepository;
 import pl.sda.hangman.infrastructure.memory.InMemoryPhraseRepository;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -19,10 +22,10 @@ public class ConsoleApplication {
     private GameFactory gameFactory;
     private PhraseService phraseService;
 
-    public ConsoleApplication() {
+    public ConsoleApplication() throws FileNotFoundException {
         InMemoryPhraseRepository phraseRepository = new InMemoryPhraseRepository(Arrays.asList("Ala ma kota", "Wielkopolska", "Pan Tadeusz"));
         ForbiddenWordsValidator forbiddenWordsValidator = new ForbiddenWordsValidator(
-                new InMemoryForbiddenWordsRepository(Arrays.asList("zlodziej", "oszust")));
+                new FileBasedForbiddenWordsRepostiory(new File("C:\\Users\\M\\Desktop\\IntelliJ - projekty\\programowanie-sredniozaawansowane\\src\\main\\resources\\hangman\\forbiddenWords.txt")));
         this.gameFactory = new GameFactory(phraseRepository);
         this.consoleViews = new ConsoleViews(new Scanner(System.in));
         this.phraseService = new PhraseService(phraseRepository,forbiddenWordsValidator);
