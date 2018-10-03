@@ -27,7 +27,7 @@ public class ConsoleApplication {
                     startGame();
                     break;
                 case 2:
-                    System.out.println("Wyniki");
+                    addPhrase();
                     break;
                 case 0:
                     flag = false;
@@ -55,4 +55,10 @@ public class ConsoleApplication {
             consoleViews.displayGameLost();
         }
     }
+
+    private void addPhrase() {
+//        String phrase = consoleViews.addPhraseMessage();
+
+    }
+
 }

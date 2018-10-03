@@ -14,8 +14,9 @@ public class ConsoleViews {
     public Integer mainMenu(){
         System.out.println("=======Wisielec=======");
         System.out.println("1. Start");
-        System.out.println("2. Wyniki");
+        System.out.println("2. Dodaj fraze");
         System.out.println("0. Koniec");
+        System.out.println("======================");
         return getIntValue();
     }
 
