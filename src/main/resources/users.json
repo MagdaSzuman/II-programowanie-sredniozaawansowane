@@ -1,0 +1,15 @@
+{
+  "firstName": "Szymon",
+  "lastName": "Nowak",
+  "age": 24,
+  "phoneNumbers": [
+    {
+      "number": "123456789",
+      "name": "prywatny"
+    },
+    {
+      "number": "6758493024",
+      "name": "slubowy"
+    }
+  ]
+}
