@@ -1,10 +1,12 @@
 package pl.sda.library.application;
 
 import pl.sda.library.domain.BooksService;
+import pl.sda.library.domain.model.Book;
 import pl.sda.library.domain.port.BooksRepository;
 import pl.sda.library.infrastructure.json.JsonBooksRepository;
 
 import java.io.File;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleApplication {
@@ -18,15 +20,18 @@ public class ConsoleApplication {
     }
 
     public void start() {
-        Integer option = consoleViews.menu();
-        switch (option) {
-            case 1:
-                showBooks();
-                break;
-            case 0:
-                System.out.println("Koniec");
-            default:
-                System.out.println("Wybrano błędną opcję");
+        boolean flag = true;
+        while (flag) {
+            Integer option = consoleViews.menu();
+            switch (option) {
+                case 1:
+                    showBooks();
+                    break;
+                case 0:
+                    flag = false;
+                default:
+                    System.out.println("Wybrano błędną opcję");
+            }
         }
     }
 
@@ -35,8 +40,12 @@ public class ConsoleApplication {
         switch (option) {
             case 1:
                 String title = consoleViews.getBookName();
-                booksService.findByTitle(title);
-
+//                long before = System.currentTimeMillis();
+                List<Book> books = booksService.findByTitle(title);
+//                long after = System.currentTimeMillis();
+//                System.out.println(after - before);
+                consoleViews.displayBooks(books);
+                break;
         }
     }
 }
