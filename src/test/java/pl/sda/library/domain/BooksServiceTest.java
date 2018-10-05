@@ -20,9 +20,9 @@ public class BooksServiceTest {
         this.booksRepository = Mockito.mock(BooksRepository.class);
         Mockito.when(booksRepository.findAll()).thenReturn(
                 Arrays.asList(
-                        Book.builder().title("Dziady III").build(),
-                        Book.builder().title("Dziady IV").build(),
-                        Book.builder().title("W pustyni i w puszczy").build()));
+                        Book.builder().title("Dziady III").author("Adam Mickiewicz").build(),
+                        Book.builder().title("Dziady IV").author("Adam Mickiewicz").build(),
+                        Book.builder().title("W pustyni i w puszczy").author("Sienkiewicz").build()));
         this.booksService = new BooksService(booksRepository);
     }
 
@@ -66,5 +66,60 @@ public class BooksServiceTest {
         //then
         Assert.assertEquals(0, books.size());
     }
+
+    @Test
+    public void findByAuthorShouldReturnEmptyListForNullAuthor() {
+        //given
+        String author = null;
+        //when
+        List<Book> books = booksService.findByAuthor(author);
+        //then
+        Assert.assertEquals(0, books.size());
+    }
+
+    @Test
+    public void findByAuthorShouldReturnEmptyListForEmptyAuthor() {
+        //given
+        String author = "";
+        //when
+        List<Book> books = booksService.findByAuthor(author);
+        //then
+        Assert.assertEquals(0, books.size());
+    }
+
+    @Test
+    public void findByAuthorShouldReturnItemsForExistingAuthor() {
+        //given
+        String author = "Adam Mickiewicz";
+        //when
+        List<Book> books = booksService.findByAuthor(author);
+        //then
+        Assert.assertEquals(2, books.size());
+        books.forEach(book -> Assert.assertTrue(book.getAuthor().equals(author)));
+    }
+
+    @Test
+    public void findByAuthorShouldReturnItemsForExistingAuthorLastName() {
+        //given
+        String authorLastName = "Mickiewicz";
+        String expectedAuthorName = "Adam Mickiewicz";
+        //when
+        List<Book> books = booksService.findByAuthor(authorLastName);
+        //then
+        Assert.assertEquals(2, books.size());
+        books.forEach(book -> Assert.assertTrue(book.getAuthor().equals(expectedAuthorName)));
+    }
+
+    @Test
+    public void findByAuthorShouldReturnEmptyListForNonExistingAuthor(){
+//        /given
+        String author = "non-existing";
+        //when
+        List<Book> books = booksService.findByAuthor(author);
+        //then
+        Assert.assertEquals(0, books.size());
+    }
+
+
 
 }

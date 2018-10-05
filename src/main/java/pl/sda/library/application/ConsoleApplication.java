@@ -46,6 +46,11 @@ public class ConsoleApplication {
 //                System.out.println(after - before);
                 consoleViews.displayBooks(books);
                 break;
+            case 2:
+                String author = consoleViews.getBookAuthor();
+                List<Book> booksByAuthor = booksService.findByAuthor(author);
+                consoleViews.displayBooks(booksByAuthor);
+                break;
         }
     }
 }

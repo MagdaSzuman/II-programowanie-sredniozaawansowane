@@ -20,7 +20,16 @@ public class BooksService {
                 Collections.emptyList() :
                 booksRepository.findAll()
                         .stream()
-                        .filter(e -> e.getTitle().contains(title))
+                        .filter(e ->StringUtils.containsIgnoreCase(e.getTitle(), title))
                         .collect(Collectors.toList());
+    }
+
+    public List<Book> findByAuthor(String author) {
+        return StringUtils.isBlank(author)?
+                Collections.emptyList():
+                booksRepository.findAll()
+                .stream()
+                .filter(e->StringUtils.containsIgnoreCase(e.getAuthor(), author))
+                .collect(Collectors.toList());
     }
 }

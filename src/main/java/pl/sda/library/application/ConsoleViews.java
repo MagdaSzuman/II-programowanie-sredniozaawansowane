@@ -64,4 +64,11 @@ public class ConsoleViews {
         System.out.println("--------------------------");
         scanner.nextLine();
     }
+
+    public String getBookAuthor() {
+        System.out.println("==========================");
+        System.out.println("Podaj autora książki");
+        System.out.println("--------------------------");
+        return scanner.nextLine();
+    }
 }
