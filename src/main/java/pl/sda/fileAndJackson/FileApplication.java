@@ -1,4 +1,4 @@
-package pl.sda;
+package pl.sda.fileAndJackson;
 
 import java.io.File;
 import java.io.FileNotFoundException;

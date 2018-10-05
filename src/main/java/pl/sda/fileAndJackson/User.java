@@ -1,4 +1,4 @@
-package pl.sda;
+package pl.sda.fileAndJackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
