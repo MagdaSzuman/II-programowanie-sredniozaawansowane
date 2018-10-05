@@ -1,6 +1,7 @@
 package pl.sda.library.domain;
 
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.api.IntegerAssert;
 import pl.sda.library.domain.filtering.BooksFilteringChain;
 import pl.sda.library.domain.model.Book;
 import pl.sda.library.domain.port.BooksRepository;
@@ -24,7 +25,7 @@ public class BooksService {
         if (StringUtils.isBlank(title)) {
             return Collections.emptyList();
         }
-        Map<String,String>parameters = new HashMap<>();
+        Map<String,Object>parameters = new HashMap<>();
         parameters.put("TITLE", title);
         return filterBooks(parameters);
 //        return StringUtils.isBlank(title) ?
@@ -39,7 +40,7 @@ public class BooksService {
         if (StringUtils.isBlank(author)) {
             return Collections.emptyList();
         }
-        Map<String,String>parameters = new HashMap<>();
+        Map<String,Object>parameters = new HashMap<>();
         parameters.put("AUTHOR", author);
         return filterBooks(parameters);
 //        return StringUtils.isBlank(author) ?
@@ -50,7 +51,16 @@ public class BooksService {
 //                        .collect(Collectors.toList());
     }
 
-    private List<Book> filterBooks(Map<String, String> filterParameters) {
+    private List<Book> filterBooks(Map<String, Object> filterParameters) {
         return chain.filter(booksRepository.findAll(), filterParameters).collect(Collectors.toList());
+    }
+
+    public List<Book> findByYear(Integer year) {
+        if (year == null) {
+            return Collections.emptyList();
+        }
+        Map<String,Object>parameters = new HashMap<>();
+        parameters.put("YEAR", year);
+        return filterBooks(parameters);
     }
 }

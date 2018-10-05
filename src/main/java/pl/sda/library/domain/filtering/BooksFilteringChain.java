@@ -15,9 +15,10 @@ public class BooksFilteringChain {
         this.chain = new ArrayList<>();
         this.chain.add(new BookAuthorFilterAction());
         this.chain.add(new BookTitleFilterAction());
+        this.chain.add(new BookYearFilterAction());
     }
 
-    public Stream<Book> filter(List<Book> books, Map<String, String> parameters) {
+    public Stream<Book> filter(List<Book> books, Map<String, Object> parameters) {
         Stream<Book> stream = books.stream();
         for (FilterAction action : chain) {
             if (action.isMyResponsibility(parameters)) {

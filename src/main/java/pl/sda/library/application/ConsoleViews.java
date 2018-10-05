@@ -30,6 +30,7 @@ public class ConsoleViews {
         System.out.println("==========================");
         System.out.println("1. Znajdź po nazwie");
         System.out.println("2. Znajdź po autorze");
+        System.out.println("3. Znajdź po dacie wydania");
         System.out.println("0. Wyjdź");
         System.out.println("--------------------------");
         return getNumberFromUser();
@@ -70,5 +71,12 @@ public class ConsoleViews {
         System.out.println("Podaj autora książki");
         System.out.println("--------------------------");
         return scanner.nextLine();
+    }
+
+    public Integer getBookYear() {
+        System.out.println("==========================");
+        System.out.println("Podaj rok wydania książki");
+        System.out.println("--------------------------");
+        return scanner.nextInt();
     }
 }

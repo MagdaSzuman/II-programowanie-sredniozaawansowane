@@ -9,12 +9,12 @@ import java.util.stream.Stream;
 public class BookTitleFilterAction implements FilterAction{
 
     @Override
-    public boolean isMyResponsibility(Map<String, String> parameters) {
+    public boolean isMyResponsibility(Map<String, Object> parameters) {
         return parameters.containsKey("TITLE");
     }
 
     @Override
-    public Stream<Book> action(Stream<Book> stream, Map<String, String> parameters) {
-        return stream.filter(e-> StringUtils.containsIgnoreCase(e.getTitle(), parameters.get("TITLE")));
+    public Stream<Book> action(Stream<Book> stream, Map<String, Object> parameters) {
+        return stream.filter(e-> StringUtils.containsIgnoreCase(e.getTitle(), (String)parameters.get("TITLE")));
     }
 }

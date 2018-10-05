@@ -20,14 +20,14 @@ public class BooksServiceTest {
         this.booksRepository = Mockito.mock(BooksRepository.class);
         Mockito.when(booksRepository.findAll()).thenReturn(
                 Arrays.asList(
-                        Book.builder().title("Dziady III").author("Adam Mickiewicz").build(),
-                        Book.builder().title("Dziady IV").author("Adam Mickiewicz").build(),
-                        Book.builder().title("W pustyni i w puszczy").author("Sienkiewicz").build()));
+                        Book.builder().title("Dziady III").author("Adam Mickiewicz").year(1823).build(),
+                        Book.builder().title("Dziady IV").author("Adam Mickiewicz").year(1823).build(),
+                        Book.builder().title("W pustyni i w puszczy").author("Sienkiewicz").year(1911).build()));
         this.booksService = new BooksService(booksRepository);
     }
 
     @Test
-    public void findByTitleShouldReturnEmptyListForNullTitle() {
+    public void findByTitle1ShouldReturnEmptyListForNullTitle() {
         //given
         String title = null;
         //when
@@ -37,7 +37,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByTitleShouldReturnEmptyListForEmptyTitle() {
+    public void findByTitle2ShouldReturnEmptyListForEmptyTitle() {
         //given
         String title = "";
         //when
@@ -47,7 +47,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByTitleShouldReturnItemsForExistingTitle() {
+    public void findByTitle3ShouldReturnItemsForExistingTitle() {
         //given
         String title = "Dziady";
         //when
@@ -58,7 +58,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByTitleShouldReturnEmptyListForNonExistingTitle() {
+    public void findByTitle4ShouldReturnEmptyListForNonExistingTitle() {
         //given
         String title = "non-existing";
         //when
@@ -68,7 +68,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByAuthorShouldReturnEmptyListForNullAuthor() {
+    public void findByAuthor1ShouldReturnEmptyListForNullAuthor() {
         //given
         String author = null;
         //when
@@ -78,7 +78,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByAuthorShouldReturnEmptyListForEmptyAuthor() {
+    public void findByAuthor2ShouldReturnEmptyListForEmptyAuthor() {
         //given
         String author = "";
         //when
@@ -88,7 +88,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByAuthorShouldReturnItemsForExistingAuthor() {
+    public void findByAuthor3ShouldReturnItemsForExistingAuthor() {
         //given
         String author = "Adam Mickiewicz";
         //when
@@ -99,7 +99,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByAuthorShouldReturnItemsForExistingAuthorLastName() {
+    public void findByAuthor4ShouldReturnItemsForExistingAuthorLastName() {
         //given
         String authorLastName = "Mickiewicz";
         String expectedAuthorName = "Adam Mickiewicz";
@@ -111,7 +111,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByAuthorShouldReturnEmptyListForNonExistingAuthor(){
+    public void findByAuthor5ShouldReturnEmptyListForNonExistingAuthor(){
 //        /given
         String author = "non-existing";
         //when
@@ -120,6 +120,35 @@ public class BooksServiceTest {
         Assert.assertEquals(0, books.size());
     }
 
+    @Test
+    public void findByYear1ShouldReturnEmptyListForNullYear() {
+        //given
+        Integer year = null;
+        //when
+        List<Book> books = booksService.findByYear(year);
+        //then
+        Assert.assertEquals(0, books.size());
+    }
 
+    @Test
+    public void findByYear2ShouldReturnItemsForExistingYear() {
+        //given
+        Integer year = 1823;
+        //when
+        List<Book> books = booksService.findByYear(year);
+        //then
+        Assert.assertEquals(2, books.size());
+        books.forEach(book -> Assert.assertEquals(book.getYear(), year));
+    }
+
+    @Test
+    public void findByYear3ShouldReturnEmptyListForNonExistingYear(){
+//       given
+        Integer year = -100;
+        //when
+        List<Book> books = booksService.findByYear(year);
+        //then
+        Assert.assertEquals(0, books.size());
+    }
 
 }
