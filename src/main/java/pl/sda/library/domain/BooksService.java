@@ -1,7 +1,6 @@
 package pl.sda.library.domain;
 
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.api.IntegerAssert;
 import pl.sda.library.domain.exceptions.InvalidPagesValueException;
 import pl.sda.library.domain.filtering.BooksFilteringChain;
 import pl.sda.library.domain.model.Book;
@@ -108,5 +107,18 @@ public class BooksService {
         if (from>to){
             throw new InvalidPagesValueException("From can't bo greater than to");
         }
+    }
+
+    public Map<String, Long> getAuthors() {
+        List<Book> books = booksRepository.findAll();
+        return books.stream()
+                .map(e -> e.getAuthor())
+                .distinct()
+                .collect(Collectors.toMap(
+                        author -> author,
+                        author -> books.stream()
+                                .filter(book -> author.equals(book.getAuthor()))
+                                .count())
+                );
     }
 }

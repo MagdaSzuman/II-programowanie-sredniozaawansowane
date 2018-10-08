@@ -8,7 +8,10 @@ import pl.sda.library.infrastructure.json.JsonBooksRepository;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ConsoleApplication {
     private ConsoleViews consoleViews;
@@ -28,12 +31,20 @@ public class ConsoleApplication {
                 case 1:
                     showBooks();
                     break;
+                case 2:
+                    showAuthors();
+                    break;
                 case 0:
-                    flag = false;
+                flag = false;
                 default:
                     System.out.println("Wybrano błędną opcję");
             }
         }
+    }
+
+    private void showAuthors() {
+        Map<String,Long> autors = booksService.getAuthors();
+        consoleViews.displayAuthors(autors);
     }
 
     private void showBooks() {
@@ -71,12 +82,12 @@ public class ConsoleApplication {
     }
 
     private void findByPagesRange() {
-        try{
+        try {
             Integer from = consoleViews.getBookFromPages();
             Integer to = consoleViews.getBookToPages();
             List<Book> booksByPages = booksService.findByPagesRange(from, to);
             consoleViews.displayBooks(booksByPages);
-        }catch (InvalidPagesValueException e){
+        } catch (InvalidPagesValueException e) {
             consoleViews.displayError("Niepoprawne dane");
         }
 

@@ -11,6 +11,7 @@ import pl.sda.library.domain.port.BooksRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class BooksServiceTest {
 
@@ -255,5 +256,14 @@ public class BooksServiceTest {
         Integer to = 100;
         //when
         booksService.findByPagesRange(from, to);
+    }
+
+    @Test
+    public void getAutorsShouldReturnAutors(){
+        //when
+        Map<String, Long> authors = booksService.getAuthors();
+        //then
+        Assert.assertEquals(authors.get("Adam Mickiewicz"),new Long(2));
+        Assert.assertEquals(authors.get("Sienkiewicz"),new Long(1));
     }
 }

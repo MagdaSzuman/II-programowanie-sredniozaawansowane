@@ -3,6 +3,7 @@ package pl.sda.library.application;
 import pl.sda.library.domain.model.Book;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ConsoleViews {
@@ -20,7 +21,7 @@ public class ConsoleViews {
     public Integer menu() {
         System.out.println("========Biblioteka========");
         System.out.println("1. Książki");
-        System.out.println("2. ....");
+        System.out.println("2. Autorzy");
         System.out.println("0. Koniec");
         System.out.println("--------------------------");
         return getNumberFromUser();
@@ -108,5 +109,11 @@ public class ConsoleViews {
         System.out.println("ERROR " + message);
         System.out.println("==========================");
         waitForAction();
+    }
+
+    public void displayAuthors(Map<String, Long> autors) {
+        autors.entrySet()
+                .forEach(e-> System.out.println(e.getKey()+" - "+e.getValue()));
+        System.out.println();
     }
 }
