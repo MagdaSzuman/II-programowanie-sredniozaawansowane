@@ -31,6 +31,8 @@ public class ConsoleViews {
         System.out.println("1. Znajdź po nazwie");
         System.out.println("2. Znajdź po autorze");
         System.out.println("3. Znajdź po dacie wydania");
+        System.out.println("4. Znajdź po języku wydania");
+        System.out.println("5. Znajdź po zakresie stron");
         System.out.println("0. Wyjdź");
         System.out.println("--------------------------");
         return getNumberFromUser();
@@ -77,6 +79,34 @@ public class ConsoleViews {
         System.out.println("==========================");
         System.out.println("Podaj rok wydania książki");
         System.out.println("--------------------------");
-        return scanner.nextInt();
+        return getNumberFromUser();
+    }
+
+    public String getBookLanguage() {
+        System.out.println("==========================");
+        System.out.println("Podaj język książki");
+        System.out.println("--------------------------");
+        return scanner.nextLine();
+    }
+
+    public Integer getBookFromPages() {
+        System.out.println("==========================");
+        System.out.println("Podaj dolny zakres stron");
+        System.out.println("--------------------------");
+        return getNumberFromUser();
+    }
+
+    public Integer getBookToPages() {
+        System.out.println("==========================");
+        System.out.println("Podaj górny zakres stron");
+        System.out.println("--------------------------");
+        return getNumberFromUser();
+    }
+
+    public void displayError(String message) {
+        System.out.println("==========================");
+        System.out.println("ERROR " + message);
+        System.out.println("==========================");
+        waitForAction();
     }
 }

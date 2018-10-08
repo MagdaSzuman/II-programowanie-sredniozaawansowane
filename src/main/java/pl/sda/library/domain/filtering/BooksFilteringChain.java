@@ -16,6 +16,8 @@ public class BooksFilteringChain {
         this.chain.add(new BookAuthorFilterAction());
         this.chain.add(new BookTitleFilterAction());
         this.chain.add(new BookYearFilterAction());
+        this.chain.add(new BookLanguageFilterAction());
+        this.chain.add(new BookPagesRangeFilterAction());
     }
 
     public Stream<Book> filter(List<Book> books, Map<String, Object> parameters) {

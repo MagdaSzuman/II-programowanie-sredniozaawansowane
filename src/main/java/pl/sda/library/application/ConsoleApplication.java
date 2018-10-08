@@ -1,6 +1,7 @@
 package pl.sda.library.application;
 
 import pl.sda.library.domain.BooksService;
+import pl.sda.library.domain.exceptions.InvalidPagesValueException;
 import pl.sda.library.domain.model.Book;
 import pl.sda.library.domain.port.BooksRepository;
 import pl.sda.library.infrastructure.json.JsonBooksRepository;
@@ -55,8 +56,29 @@ public class ConsoleApplication {
                 Integer year = consoleViews.getBookYear();
                 List<Book> booksByYear = booksService.findByYear(year);
                 consoleViews.displayBooks(booksByYear);
+                break;
+            case 4:
+                String language = consoleViews.getBookLanguage();
+                List<Book> booksByLanguage = booksService.findByLanguage(language);
+                consoleViews.displayBooks(booksByLanguage);
+                break;
+            case 5:
+                findByPagesRange();
+                break;
             default:
                 System.out.println("Błąd");
         }
+    }
+
+    private void findByPagesRange() {
+        try{
+            Integer from = consoleViews.getBookFromPages();
+            Integer to = consoleViews.getBookToPages();
+            List<Book> booksByPages = booksService.findByPagesRange(from, to);
+            consoleViews.displayBooks(booksByPages);
+        }catch (InvalidPagesValueException e){
+            consoleViews.displayError("Niepoprawne dane");
+        }
+
     }
 }
