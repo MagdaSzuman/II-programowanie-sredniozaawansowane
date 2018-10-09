@@ -6,10 +6,7 @@ import pl.sda.library.domain.filtering.BooksFilteringChain;
 import pl.sda.library.domain.model.Book;
 import pl.sda.library.domain.port.BooksRepository;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BooksService {
@@ -120,5 +117,12 @@ public class BooksService {
                                 .filter(book -> author.equals(book.getAuthor()))
                                 .count())
                 );
+    }
+
+    public Optional <Book> findById(String bookId) {
+        return booksRepository.findAll()
+                .stream()
+                .filter(e->e.getId().equals(bookId))
+                .findFirst();
     }
 }

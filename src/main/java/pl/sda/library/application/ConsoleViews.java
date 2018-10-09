@@ -12,6 +12,7 @@ public class ConsoleViews {
     public ConsoleViews(Scanner scanner) {
         this.scanner = scanner;
     }
+
     private Integer getNumberFromUser() {
         Integer option = scanner.nextInt();
         scanner.nextLine();
@@ -47,11 +48,11 @@ public class ConsoleViews {
     }
 
     public void displayBooks(List<Book> books) {
-        if (books.size()>0) {
+        if (books.size() > 0) {
 //            books.forEach(this::displayShortenedBook);
             //tożsame z poniższym, ale tylko dla prostych lambdach, przy wielu argumentach to nie zadziała
-             books.forEach(book -> displayShortenedBook(book));
-        }else {
+            books.forEach(book -> displayShortenedBook(book));
+        } else {
             System.out.println("Brak książek do wyświetlania");
         }
         waitForAction();
@@ -59,7 +60,7 @@ public class ConsoleViews {
 
     private void displayShortenedBook(Book book) {
         System.out.println("==========================");
-        System.out.println(book.getTitle() + " (" + book.getYear() + ") - " + book.getAuthor());
+        System.out.println(book.getId() + ". " + book.getTitle() + " (" + book.getYear() + ") - " + book.getAuthor());
     }
 
     private void waitForAction() {
@@ -113,7 +114,33 @@ public class ConsoleViews {
 
     public void displayAuthors(Map<String, Long> autors) {
         autors.entrySet()
-                .forEach(e-> System.out.println(e.getKey()+" - "+e.getValue()));
+                .forEach(e -> System.out.println(e.getKey() + " - " + e.getValue()));
         System.out.println();
+    }
+
+    public String getBookId() {
+        System.out.println("==========================");
+        System.out.println("Podaj identyfikator ksiazki");
+        System.out.println("--------------------------");
+        return scanner.nextLine();
+    }
+
+    public String getUserName() {
+        System.out.println("==========================");
+        System.out.println("Podaj nazwę użytkownika");
+        System.out.println("--------------------------");
+        return scanner.nextLine();
+    }
+
+    public void displayBorrowSuccess(String bookTitle) {
+        System.out.println("==========================");
+        System.out.println("Udało się wypożyczyć książkę " + bookTitle);
+        System.out.println("--------------------------");
+    }
+
+    public void displayBorrowFailure() {
+        System.out.println("==========================");
+        System.out.println("Nie udało się wypożyczyć książki");
+        System.out.println("--------------------------");
     }
 }

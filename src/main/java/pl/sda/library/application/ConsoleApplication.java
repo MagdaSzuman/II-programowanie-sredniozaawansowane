@@ -1,26 +1,29 @@
 package pl.sda.library.application;
 
 import pl.sda.library.domain.BooksService;
+import pl.sda.library.domain.BorrowService;
 import pl.sda.library.domain.exceptions.InvalidPagesValueException;
 import pl.sda.library.domain.model.Book;
+import pl.sda.library.domain.model.Borrow;
 import pl.sda.library.domain.port.BooksRepository;
 import pl.sda.library.infrastructure.json.JsonBooksRepository;
+import pl.sda.library.infrastructure.memory.InMemoryBorrowRepository;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ConsoleApplication {
     private ConsoleViews consoleViews;
     private BooksService booksService;
+    private BorrowService borrowService;
 
     public ConsoleApplication() {
         BooksRepository booksRepository = new JsonBooksRepository(new File("C:\\Users\\M\\Desktop\\IntelliJ - projekty\\programowanie-sredniozaawansowane\\src\\main\\resources\\books.json"));
         this.consoleViews = new ConsoleViews(new Scanner(System.in));
         this.booksService = new BooksService(booksRepository);
+        this.borrowService = new BorrowService(booksService,new InMemoryBorrowRepository());
     }
 
     public void start() {
@@ -76,8 +79,20 @@ public class ConsoleApplication {
             case 5:
                 findByPagesRange();
                 break;
-            default:
-                System.out.println("Błąd");
+        }
+        if (option !=0){
+            borrow();
+        }
+    }
+
+    private void borrow() {
+        String id = consoleViews.getBookId();
+        String userName = consoleViews.getUserName();
+        Borrow borrow = borrowService.borrow(id, userName);
+        if (borrow != null) {
+            consoleViews.displayBorrowSuccess(borrow.getBook().getTitle());
+        } else {
+            consoleViews.displayBorrowFailure();
         }
     }
 

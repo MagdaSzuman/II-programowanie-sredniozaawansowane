@@ -6,6 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class Book {
+    private String id;
     private String author;
     private String country;
     private String language;
