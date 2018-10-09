@@ -5,6 +5,7 @@ import pl.sda.library.domain.BorrowService;
 import pl.sda.library.domain.exceptions.InvalidPagesValueException;
 import pl.sda.library.domain.model.Book;
 import pl.sda.library.domain.model.Borrow;
+import pl.sda.library.domain.model.BorrowStatus;
 import pl.sda.library.domain.port.BooksRepository;
 import pl.sda.library.infrastructure.json.JsonBooksRepository;
 import pl.sda.library.infrastructure.memory.InMemoryBorrowRepository;
@@ -18,6 +19,7 @@ public class ConsoleApplication {
     private ConsoleViews consoleViews;
     private BooksService booksService;
     private BorrowService borrowService;
+
 
     public ConsoleApplication() {
         BooksRepository booksRepository = new JsonBooksRepository(new File("C:\\Users\\M\\Desktop\\IntelliJ - projekty\\programowanie-sredniozaawansowane\\src\\main\\resources\\books.json"));
@@ -37,17 +39,15 @@ public class ConsoleApplication {
                 case 2:
                     showAuthors();
                     break;
+                case 3:
+                    showBorrow();
+                    break;
                 case 0:
                 flag = false;
                 default:
                     System.out.println("Wybrano błędną opcję");
             }
         }
-    }
-
-    private void showAuthors() {
-        Map<String,Long> autors = booksService.getAuthors();
-        consoleViews.displayAuthors(autors);
     }
 
     private void showBooks() {
@@ -85,6 +85,11 @@ public class ConsoleApplication {
         }
     }
 
+    private void showAuthors() {
+        Map<String,Long> autors = booksService.getAuthors();
+        consoleViews.displayAuthors(autors);
+    }
+
     private void borrow() {
         String id = consoleViews.getBookId();
         String userName = consoleViews.getUserName();
@@ -105,6 +110,12 @@ public class ConsoleApplication {
         } catch (InvalidPagesValueException e) {
             consoleViews.displayError("Niepoprawne dane");
         }
+    }
 
+
+    private void showBorrow() {
+        String userName = consoleViews.getUserName();
+        List<Borrow> borrowedByUser = borrowService.findByUserAndStatus(userName, BorrowStatus.BORROWED);
+        consoleViews.displayBorrowed(borrowedByUser);
     }
 }

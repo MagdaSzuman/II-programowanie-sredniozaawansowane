@@ -1,7 +1,9 @@
 package pl.sda.library.application;
 
 import pl.sda.library.domain.model.Book;
+import pl.sda.library.domain.model.Borrow;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -23,6 +25,7 @@ public class ConsoleViews {
         System.out.println("========Biblioteka========");
         System.out.println("1. Książki");
         System.out.println("2. Autorzy");
+        System.out.println("3. Wypożyczenia");
         System.out.println("0. Koniec");
         System.out.println("--------------------------");
         return getNumberFromUser();
@@ -142,5 +145,20 @@ public class ConsoleViews {
         System.out.println("==========================");
         System.out.println("Nie udało się wypożyczyć książki");
         System.out.println("--------------------------");
+    }
+
+    public void displayBorrowed(List<Borrow> borrowList) {
+        if (borrowList.size() == 0) {
+            System.out.println("==========================");
+            System.out.println("Brak wypożyczeń");
+            System.out.println("--------------------------");
+        } else {
+            for (int i = 0; i < borrowList.size(); i++) {
+                Borrow borrow = borrowList.get(i);
+                String bookTitle = borrow.getBook().getTitle();
+                Instant borrowDate = borrow.getBorrowDate();
+                System.out.println((i + 1) + ". " + bookTitle + "\t" + borrowDate);
+            }
+        }
     }
 }

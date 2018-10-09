@@ -269,7 +269,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByInShouldReturnBookForExistingId() {
+    public void findByIn1ShouldReturnBookForExistingId() {
         //given
         String id = "7";
         String expectedTitle = "Dziady III";
@@ -282,7 +282,7 @@ public class BooksServiceTest {
     }
 
     @Test
-    public void findByInShouldNotReturnBookForNonExistingId() {
+    public void findByIn2ShouldNotReturnBookForNonExistingId() {
         //given
         String id = "non-existing-id";
         //when
